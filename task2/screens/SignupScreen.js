@@ -1,5 +1,9 @@
+
 import React, { useState, useContext } from "react";
-import { View, TextInput, TouchableOpacity, Text, StyleSheet, Image, Alert } from "react-native";
+import { 
+  View, TextInput, TouchableOpacity, Text, StyleSheet, Image, Alert,
+  KeyboardAvoidingView, ScrollView, Platform
+} from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { UserContext } from "../context/UserContext";
 import { LinearGradient } from "expo-linear-gradient";
@@ -66,106 +70,113 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <LinearGradient colors={["#f8fafc", "#e2e8f0"]} style={styles.container}>
-      <View style={styles.logoContainer}></View>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === "ios" ? "padding" : null}
+    >
+      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <LinearGradient colors={["#f8fafc", "#e2e8f0"]} style={styles.container}>
+          <View style={styles.logoContainer}></View>
 
-      <View style={styles.formContainer}>
-        <Text style={styles.formTitle}>Create Account</Text>
+          <View style={styles.formContainer}>
+            <Text style={styles.formTitle}>Create Account</Text>
 
-        {/* Profile Picture */}
-        <View style={styles.profileSection}>
-          {Form.profilePic ? (
-            <Image source={{ uri: Form.profilePic }} style={styles.profileImage} />
-          ) : (
-            <View style={styles.profilePlaceholder}>
-              <Text style={styles.profilePlaceholderText}>📷</Text>
+            {/* Profile Picture */}
+            <View style={styles.profileSection}>
+              {Form.profilePic ? (
+                <Image source={{ uri: Form.profilePic }} style={styles.profileImage} />
+              ) : (
+                <View style={styles.profilePlaceholder}>
+                  <Text style={styles.profilePlaceholderText}>📷</Text>
+                </View>
+              )}
+              <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
+                <Text style={styles.imageButtonText}>
+                  {Form.profilePic ? "Change Photo" : "Add Photo"}
+                </Text>
+              </TouchableOpacity>
             </View>
-          )}
-          <TouchableOpacity style={styles.imageButton} onPress={pickImage}>
-            <Text style={styles.imageButtonText}>
-              {Form.profilePic ? "Change Photo" : "Add Photo"}
-            </Text>
-          </TouchableOpacity>
-        </View>
 
-        {/* Inputs */}
-        <TextInput
-          placeholder="Full Name"
-          placeholderTextColor="#64748b"
-          style={[styles.input, { marginBottom: 20 }]}
-          value={Form.name}
-          onChangeText={(text) => setForm({ ...Form, name: text })}
-        />
-        <TextInput
-          placeholder="Email address"
-          placeholderTextColor="#64748b"
-          style={[styles.input, { marginBottom: 20 }]}
-          value={Form.email}
-          onChangeText={(text) => setForm({ ...Form, email: text })}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-        <TextInput
-          placeholder="Contact Number"
-          placeholderTextColor="#64748b"
-          style={[styles.input, { marginBottom: 20 }]}
-          value={Form.contactNo}
-          onChangeText={(text) => setForm({ ...Form, contactNo: text })}
-          keyboardType="phone-pad"
-        />
+            {/* Inputs */}
+            <TextInput
+              placeholder="Full Name"
+              placeholderTextColor="#64748b"
+              style={[styles.input, { marginBottom: 20 }]}
+              value={Form.name}
+              onChangeText={(text) => setForm({ ...Form, name: text })}
+            />
+            <TextInput
+              placeholder="Email address"
+              placeholderTextColor="#64748b"
+              style={[styles.input, { marginBottom: 20 }]}
+              value={Form.email}
+              onChangeText={(text) => setForm({ ...Form, email: text })}
+              keyboardType="email-address"
+              autoCapitalize="none"
+            />
+            <TextInput
+              placeholder="Contact Number"
+              placeholderTextColor="#64748b"
+              style={[styles.input, { marginBottom: 20 }]}
+              value={Form.contactNo}
+              onChangeText={(text) => setForm({ ...Form, contactNo: text })}
+              keyboardType="phone-pad"
+            />
 
-        {/* Password Input with inline eye */}
-        <View style={[styles.inputWrapper, { marginBottom: 20 }]}>
-          <TextInput
-            placeholder="Password (min 6 characters)"
-            placeholderTextColor="#64748b"
-            secureTextEntry={showPassword}
-            style={styles.input}
-            value={Form.password}
-            onChangeText={(text) => setForm({ ...Form, password: text })}
-          />
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => setShowPassword(!showPassword)}
-          >
-            <Ionicons name={showPassword ? "eye-off" : "eye"} size={22} color="#64748b" />
-          </TouchableOpacity>
-        </View>
+            <View style={[styles.inputWrapper, { marginBottom: 20 }]}>
+              <TextInput
+                placeholder="Password (min 6 characters)"
+                placeholderTextColor="#64748b"
+                secureTextEntry={showPassword}
+                style={styles.input}
+                value={Form.password}
+                onChangeText={(text) => setForm({ ...Form, password: text })}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowPassword(!showPassword)}
+              >
+                <Ionicons name={showPassword ? "eye-off" : "eye"} size={22} color="#64748b" />
+              </TouchableOpacity>
+            </View>
 
-        <View style={[styles.inputWrapper, { marginBottom: 25 }]}>
-          <TextInput
-            placeholder="Confirm Password"
-            placeholderTextColor="#64748b"
-            secureTextEntry={showConfirmPassword}
-            style={styles.input}
-            value={Form.confirmPassword}
-            onChangeText={(text) => setForm({ ...Form, confirmPassword: text })}
-          />
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => setShowConfirmPassword(!showConfirmPassword)}
-          >
-            <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={22} color="#64748b" />
-          </TouchableOpacity>
-        </View>
+            <View style={[styles.inputWrapper, { marginBottom: 25 }]}>
+              <TextInput
+                placeholder="Confirm Password"
+                placeholderTextColor="#64748b"
+                secureTextEntry={showConfirmPassword}
+                style={styles.input}
+                value={Form.confirmPassword}
+                onChangeText={(text) => setForm({ ...Form, confirmPassword: text })}
+              />
+              <TouchableOpacity
+                style={styles.eyeIcon}
+                onPress={() => setShowConfirmPassword(!showConfirmPassword)}
+              >
+                <Ionicons name={showConfirmPassword ? "eye-off" : "eye"} size={22} color="#64748b" />
+              </TouchableOpacity>
+            </View>
 
-        <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
-          <Text style={styles.signupButtonText}>Sign Up</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.signupButton} onPress={handleSignup}>
+              <Text style={styles.signupButtonText}>Sign Up</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.loginLink}
-          onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.loginLinkText}>
-            Already have account?<Text style={styles.loginLinkBold}>Sign In</Text>
-          </Text>
-        </TouchableOpacity>
-      </View>
-    </LinearGradient>
+            <TouchableOpacity
+              style={styles.loginLink}
+              onPress={() => navigation.navigate("Login")}
+            >
+              <Text style={styles.loginLinkText}>
+                Already have account?<Text style={styles.loginLinkBold}> Sign In</Text>
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </LinearGradient>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
+// Keep all previous styles unchanged
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, paddingTop: 50 },
   logoContainer: { alignItems: "center", marginBottom: 30 },
@@ -178,7 +189,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 12,
     elevation: 5,
-    flex: 1,
   },
   formTitle: { fontSize: 20, fontWeight: "600", color: "#1e293b", marginBottom: 20, textAlign: "center" },
   profileSection: { alignItems: "center", marginBottom: 30 },

@@ -8,7 +8,8 @@ export default function EditProfileScreen({ navigation }) {
 
   const [name, setName] = useState(user.name);
   const [email, setEmail] = useState(user.email);
-  const [phone, setPhone] = useState(user.phone || "");
+  const [phone, setPhone] = useState(user.contactNo || "");
+
   const [profilePic, setProfilePic] = useState(user.profilePic);
 
   const pickImage = async () => {
@@ -35,14 +36,15 @@ export default function EditProfileScreen({ navigation }) {
       alert("Name and Email cannot be empty");
       return;
     }
-    updateProfile({ name, email, phone, profilePic });
+   updateProfile({ name, email, profilePic, contactNo: phone });
+
     navigation.goBack();
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.card}>
-        {/* Profile Picture */}
+       
         <TouchableOpacity onPress={pickImage}>
           {profilePic ? (
             <Image source={{ uri: profilePic }} style={styles.profileImage} />
@@ -53,7 +55,7 @@ export default function EditProfileScreen({ navigation }) {
           )}
         </TouchableOpacity>
 
-        {/* Inputs */}
+      
         <TextInput
           value={name}
           placeholder="Full Name"
@@ -78,7 +80,7 @@ export default function EditProfileScreen({ navigation }) {
           onChangeText={setPhone}
         />
 
-        {/* Save Button */}
+        
         <TouchableOpacity style={styles.button} onPress={handleSave}>
           <Text style={styles.buttonText}>Save Changes</Text>
         </TouchableOpacity>
@@ -104,7 +106,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 25,
     alignItems: "center",
     borderWidth: 1.5,
-    borderColor: "#bebebeff", // subtle refreshing border
+    borderColor: "#bebebeff", 
   },
   profileImage: {
     width: 160,
@@ -112,7 +114,7 @@ const styles = StyleSheet.create({
     borderRadius: 80,
     marginBottom: 30,
     borderWidth: 3,
-    borderColor: "#bbb", // outline around profile pic
+    borderColor: "#bbb",
   },
   placeholder: {
     width: 160,
