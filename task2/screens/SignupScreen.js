@@ -1,4 +1,3 @@
-
 import React, { useState, useContext } from "react";
 import { 
   View, TextInput, TouchableOpacity, Text, StyleSheet, Image, Alert,
@@ -72,9 +71,13 @@ export default function SignupScreen({ navigation }) {
   return (
     <KeyboardAvoidingView
       style={{ flex: 1 }}
-      behavior={Platform.OS === "ios" ? "padding" : null}
+      behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+      <ScrollView 
+        contentContainerStyle={{ flexGrow: 1 }} 
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="interactive"
+      >
         <LinearGradient colors={["#f8fafc", "#e2e8f0"]} style={styles.container}>
           <View style={styles.logoContainer}></View>
 
@@ -176,7 +179,6 @@ export default function SignupScreen({ navigation }) {
   );
 }
 
-// Keep all previous styles unchanged
 const styles = StyleSheet.create({
   container: { flex: 1, paddingHorizontal: 20, paddingTop: 50 },
   logoContainer: { alignItems: "center", marginBottom: 30 },
